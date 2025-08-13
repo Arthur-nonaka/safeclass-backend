@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const alunoController = require('../controllers/alunoController');
 
-// Rotas para alunos
 router.get('/', alunoController.getAllAlunos);
 router.get('/:id', alunoController.getAlunoById);
 router.post('/', alunoController.createAluno);

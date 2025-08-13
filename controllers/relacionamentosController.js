@@ -1,6 +1,5 @@
 const { pool } = require('../config/database');
 
-// Listar relacionamentos responsável-filho
 const getAllResponsavelFilho = async (req, res) => {
   try {
     const [rows] = await pool.execute(`
@@ -26,7 +25,7 @@ const getAllResponsavelFilho = async (req, res) => {
   }
 };
 
-// Buscar filhos de um responsável
+
 const getFilhosByResponsavel = async (req, res) => {
   try {
     const { responsavel_id } = req.params;
@@ -54,7 +53,6 @@ const getFilhosByResponsavel = async (req, res) => {
   }
 };
 
-// Buscar responsáveis de um aluno
 const getResponsaveisByFilho = async (req, res) => {
   try {
     const { filho_id } = req.params;
@@ -82,7 +80,6 @@ const getResponsaveisByFilho = async (req, res) => {
   }
 };
 
-// Criar relacionamento responsável-filho
 const createResponsavelFilho = async (req, res) => {
   try {
     const { responsavel_id, filho_id } = req.body;
@@ -94,7 +91,6 @@ const createResponsavelFilho = async (req, res) => {
       });
     }
     
-    // Verificar se o relacionamento já existe
     const [existing] = await pool.execute(
       'SELECT * FROM responsavel_filho WHERE responsavel_id = ? AND filho_id = ?',
       [responsavel_id, filho_id]
@@ -126,7 +122,6 @@ const createResponsavelFilho = async (req, res) => {
   }
 };
 
-// Deletar relacionamento responsável-filho
 const deleteResponsavelFilho = async (req, res) => {
   try {
     const { responsavel_id, filho_id } = req.params;
@@ -156,7 +151,6 @@ const deleteResponsavelFilho = async (req, res) => {
   }
 };
 
-// Listar relacionamentos usuário-condição médica
 const getAllUsuarioCondicao = async (req, res) => {
   try {
     const [rows] = await pool.execute(`
@@ -182,7 +176,6 @@ const getAllUsuarioCondicao = async (req, res) => {
   }
 };
 
-// Buscar condições de um aluno
 const getCondicoesByAluno = async (req, res) => {
   try {
     const { aluno_id } = req.params;
@@ -211,7 +204,6 @@ const getCondicoesByAluno = async (req, res) => {
   }
 };
 
-// Criar relacionamento usuário-condição médica
 const createUsuarioCondicao = async (req, res) => {
   try {
     const { aluno_id, condicao_id } = req.body;
@@ -223,7 +215,6 @@ const createUsuarioCondicao = async (req, res) => {
       });
     }
     
-    // Verificar se o relacionamento já existe
     const [existing] = await pool.execute(
       'SELECT * FROM usuario_condicao_medica WHERE aluno_id = ? AND condicao_id = ?',
       [aluno_id, condicao_id]
@@ -255,7 +246,6 @@ const createUsuarioCondicao = async (req, res) => {
   }
 };
 
-// Deletar relacionamento usuário-condição médica
 const deleteUsuarioCondicao = async (req, res) => {
   try {
     const { aluno_id, condicao_id } = req.params;

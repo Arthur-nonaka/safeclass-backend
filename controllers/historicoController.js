@@ -1,6 +1,6 @@
 const { pool } = require('../config/database');
 
-// Listar histórico
+
 const getAllHistorico = async (req, res) => {
   try {
     const [rows] = await pool.execute(`
@@ -23,7 +23,7 @@ const getAllHistorico = async (req, res) => {
   }
 };
 
-// Buscar histórico por ID
+
 const getHistoricoById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -54,7 +54,7 @@ const getHistoricoById = async (req, res) => {
   }
 };
 
-// Buscar histórico por usuário
+
 const getHistoricoByUsuario = async (req, res) => {
   try {
     const { usuario_id } = req.params;
@@ -79,7 +79,7 @@ const getHistoricoByUsuario = async (req, res) => {
   }
 };
 
-// Criar nova entrada no histórico
+
 const createHistorico = async (req, res) => {
   try {
     const { usuario_id, descricao } = req.body;
@@ -114,7 +114,7 @@ const createHistorico = async (req, res) => {
   }
 };
 
-// Atualizar histórico
+
 const updateHistorico = async (req, res) => {
   try {
     const { id } = req.params;
@@ -153,7 +153,6 @@ const updateHistorico = async (req, res) => {
   }
 };
 
-// Deletar histórico
 const deleteHistorico = async (req, res) => {
   try {
     const { id } = req.params;

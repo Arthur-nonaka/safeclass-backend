@@ -1,7 +1,6 @@
 const { pool } = require('../config/database');
 const bcrypt = require('bcryptjs');
 
-// Listar todos os usuários
 const getAllUsuarios = async (req, res) => {
   try {
     const [rows] = await pool.execute(`
@@ -11,7 +10,6 @@ const getAllUsuarios = async (req, res) => {
       ORDER BY u.nome_completo
     `);
     
-    // Remover senha_hash dos resultados
     const usuariosSemSenha = rows.map(usuario => {
       const { senha_hash, ...usuarioSemSenha } = usuario;
       return usuarioSemSenha;
@@ -30,7 +28,6 @@ const getAllUsuarios = async (req, res) => {
   }
 };
 
-// Buscar usuário por ID
 const getUsuarioById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -48,7 +45,6 @@ const getUsuarioById = async (req, res) => {
       });
     }
     
-    // Remover senha_hash do resultado
     const { senha_hash, ...usuarioSemSenha } = rows[0];
     
     res.json({
@@ -64,12 +60,10 @@ const getUsuarioById = async (req, res) => {
   }
 };
 
-// Criar novo usuário
 const createUsuario = async (req, res) => {
   try {
     const { nome_completo, email, senha, telefone, tipo, sala_id } = req.body;
     
-    // Validações básicas
     if (!nome_completo || !tipo) {
       return res.status(400).json({
         success: false,
@@ -83,8 +77,7 @@ const createUsuario = async (req, res) => {
         message: 'Tipo deve ser: professor, aluno ou responsavel'
       });
     }
-    
-    // Hash da senha se fornecida
+
     let senhaHash = null;
     if (senha) {
       senhaHash = await bcrypt.hash(senha, 10);
@@ -123,13 +116,11 @@ const createUsuario = async (req, res) => {
   }
 };
 
-// Atualizar usuário
 const updateUsuario = async (req, res) => {
   try {
     const { id } = req.params;
     const { nome_completo, email, senha, telefone, tipo, sala_id } = req.body;
     
-    // Validações básicas
     if (!nome_completo || !tipo) {
       return res.status(400).json({
         success: false,
@@ -144,7 +135,6 @@ const updateUsuario = async (req, res) => {
       });
     }
     
-    // Hash da senha se fornecida
     let senhaHash = null;
     if (senha) {
       senhaHash = await bcrypt.hash(senha, 10);
@@ -197,7 +187,6 @@ const updateUsuario = async (req, res) => {
   }
 };
 
-// Deletar usuário
 const deleteUsuario = async (req, res) => {
   try {
     const { id } = req.params;

@@ -1,6 +1,5 @@
 const { pool } = require('../config/database');
 
-// Listar todas as salas
 const getAllSalas = async (req, res) => {
   try {
     const [rows] = await pool.execute('SELECT * FROM sala ORDER BY nome');
@@ -17,7 +16,6 @@ const getAllSalas = async (req, res) => {
   }
 };
 
-// Buscar sala por ID
 const getSalaById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -43,7 +41,6 @@ const getSalaById = async (req, res) => {
   }
 };
 
-// Criar nova sala
 const createSala = async (req, res) => {
   try {
     const { nome } = req.body;
@@ -77,7 +74,6 @@ const createSala = async (req, res) => {
   }
 };
 
-// Atualizar sala
 const updateSala = async (req, res) => {
   try {
     const { id } = req.params;
@@ -116,7 +112,7 @@ const updateSala = async (req, res) => {
   }
 };
 
-// Deletar sala
+
 const deleteSala = async (req, res) => {
   try {
     const { id } = req.params;

@@ -1,6 +1,5 @@
 const { pool } = require('../config/database');
 
-// Listar todos os remédios
 const getAllRemedios = async (req, res) => {
   try {
     const [rows] = await pool.execute(`
@@ -23,7 +22,6 @@ const getAllRemedios = async (req, res) => {
   }
 };
 
-// Buscar remédio por ID
 const getRemedioById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -54,7 +52,6 @@ const getRemedioById = async (req, res) => {
   }
 };
 
-// Buscar remédios por aluno
 const getRemediosByAluno = async (req, res) => {
   try {
     const { aluno_id } = req.params;
@@ -79,7 +76,6 @@ const getRemediosByAluno = async (req, res) => {
   }
 };
 
-// Criar novo remédio
 const createRemedio = async (req, res) => {
   try {
     const { aluno_id, nome, descricao, dosagem, horario } = req.body;
@@ -117,7 +113,6 @@ const createRemedio = async (req, res) => {
   }
 };
 
-// Atualizar remédio
 const updateRemedio = async (req, res) => {
   try {
     const { id } = req.params;
@@ -156,7 +151,6 @@ const updateRemedio = async (req, res) => {
   }
 };
 
-// Deletar remédio
 const deleteRemedio = async (req, res) => {
   try {
     const { id } = req.params;

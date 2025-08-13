@@ -5,7 +5,6 @@ require('dotenv').config();
 
 const { testConnection } = require('./config/database');
 
-// Importar rotas
 const salaRoutes = require('./routes/salaRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const alunoRoutes = require('./routes/alunoRoutes');
@@ -17,18 +16,10 @@ const relacionamentosRoutes = require('./routes/relacionamentosRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Middleware de logging
-app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
-  next();
-});
-
-// Rota de teste
 app.get('/', (req, res) => {
   res.json({
     message: 'SafeClass API está funcionando!',
@@ -37,7 +28,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// Configurar rotas da API
 app.use('/api/salas', salaRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/alunos', alunoRoutes);
@@ -46,7 +36,6 @@ app.use('/api/remedios', remedioRoutes);
 app.use('/api/historico', historicoRoutes);
 app.use('/api', relacionamentosRoutes);
 
-// Middleware de tratamento de erros 404
 app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
@@ -55,7 +44,7 @@ app.use('*', (req, res) => {
   });
 });
 
-// Middleware de tratamento de erros globais
+
 app.use((error, req, res, next) => {
   console.error('Erro:', error);
   res.status(500).json({
@@ -65,16 +54,12 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Iniciar servidor
 const startServer = async () => {
   try {
-    // Testar conexão com o banco
     await testConnection();
     
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor rodando na porta ${PORT}`);
-      console.log(`📡 API disponível em: http://localhost:${PORT}`);
-      console.log(`📋 Documentação das rotas disponível no README.md`);
+      console.log(`API disponível em: http://localhost:${PORT}`);
     });
   } catch (error) {
     console.error('❌ Erro ao iniciar servidor:', error);

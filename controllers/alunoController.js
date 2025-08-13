@@ -1,6 +1,5 @@
 const { pool } = require('../config/database');
 
-// Listar todos os alunos
 const getAllAlunos = async (req, res) => {
   try {
     const [rows] = await pool.execute(`
@@ -23,7 +22,6 @@ const getAllAlunos = async (req, res) => {
   }
 };
 
-// Buscar aluno por ID
 const getAlunoById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -54,7 +52,6 @@ const getAlunoById = async (req, res) => {
   }
 };
 
-// Criar novo aluno
 const createAluno = async (req, res) => {
   try {
     const { nome_completo, sala_id } = req.body;
@@ -89,7 +86,6 @@ const createAluno = async (req, res) => {
   }
 };
 
-// Atualizar aluno
 const updateAluno = async (req, res) => {
   try {
     const { id } = req.params;
@@ -128,7 +124,6 @@ const updateAluno = async (req, res) => {
   }
 };
 
-// Deletar aluno
 const deleteAluno = async (req, res) => {
   try {
     const { id } = req.params;

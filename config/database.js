@@ -13,7 +13,6 @@ const dbConfig = {
 
 const pool = mysql.createPool(dbConfig);
 
-// Testar conexão
 const testConnection = async () => {
   try {
     const connection = await pool.getConnection();

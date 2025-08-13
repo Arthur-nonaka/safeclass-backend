@@ -1,6 +1,5 @@
 const { pool } = require('../config/database');
 
-// Listar todas as condições médicas
 const getAllCondicoesMedicas = async (req, res) => {
   try {
     const [rows] = await pool.execute('SELECT * FROM condicao_medica ORDER BY nome');
@@ -17,7 +16,6 @@ const getAllCondicoesMedicas = async (req, res) => {
   }
 };
 
-// Buscar condição médica por ID
 const getCondicaoMedicaById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -43,7 +41,6 @@ const getCondicaoMedicaById = async (req, res) => {
   }
 };
 
-// Criar nova condição médica
 const createCondicaoMedica = async (req, res) => {
   try {
     const { nome, descricao } = req.body;
@@ -78,7 +75,6 @@ const createCondicaoMedica = async (req, res) => {
   }
 };
 
-// Atualizar condição médica
 const updateCondicaoMedica = async (req, res) => {
   try {
     const { id } = req.params;
@@ -117,7 +113,6 @@ const updateCondicaoMedica = async (req, res) => {
   }
 };
 
-// Deletar condição médica
 const deleteCondicaoMedica = async (req, res) => {
   try {
     const { id } = req.params;

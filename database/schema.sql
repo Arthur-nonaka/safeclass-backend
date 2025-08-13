@@ -1,4 +1,3 @@
--- SafeClass - Esquema Simplificado em Português (com tabela de usuários)
 CREATE DATABASE IF NOT EXISTS safeclass CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE safeclass;
 
@@ -65,7 +64,6 @@ CREATE TABLE historico (
   FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- Dados de exemplo
 INSERT INTO sala (nome) VALUES 
 ('1º Ano A'), 
 ('1º Ano B'), 
@@ -94,25 +92,21 @@ INSERT INTO usuario (nome_completo, email, telefone, tipo, sala_id) VALUES
 ('Maria Aparecida Costa', 'maria.ap@email.com', '(11) 99999-2222', 'responsavel', NULL),
 ('Roberto Lima', 'roberto@email.com', '(11) 99999-3333', 'responsavel', NULL);
 
--- Relacionar responsáveis com filhos
 INSERT INTO responsavel_filho (responsavel_id, filho_id) VALUES 
-(3, 1), -- José é pai do João
-(4, 2), -- Maria Aparecida é mãe da Maria
-(5, 3); -- Roberto é pai do Pedro
+(3, 1), 
+(4, 2),
+(5, 3); 
 
--- Associar condições médicas aos alunos
 INSERT INTO usuario_condicao_medica (aluno_id, condicao_id) VALUES 
-(1, 1), -- João tem diabetes
-(2, 2), -- Maria tem asma
-(3, 3); -- Pedro tem alergia alimentar
+(1, 1),
+(2, 2),
+(3, 3); 
 
--- Medicamentos dos alunos
 INSERT INTO remedio (aluno_id, nome, descricao, dosagem, horario) VALUES 
 (1, 'Insulina', 'Para controle da glicemia', '10 unidades', '08:00 e 18:00'),
 (2, 'Bombinha para Asma', 'Broncodilatador', '2 borrifadas', 'Quando necessário'),
 (3, 'Anti-histamínico', 'Para reações alérgicas', '1 comprimido', 'Em caso de alergia');
 
--- Histórico de exemplo
 INSERT INTO historico (usuario_id, descricao) VALUES 
 (1, 'Aluno João teve episódio de hipoglicemia durante a aula'),
 (2, 'Maria utilizou bombinha durante o recreio'),
