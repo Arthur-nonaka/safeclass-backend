@@ -12,7 +12,7 @@ CREATE TABLE usuario (
   email VARCHAR(150) UNIQUE,
   senha_hash VARCHAR(255),
   telefone VARCHAR(255),
-  tipo ENUM('professor','aluno','responsavel') NOT NULL,
+  tipo ENUM('professor','responsavel') NOT NULL,
   sala_id BIGINT UNSIGNED NULL,
   FOREIGN KEY (sala_id) REFERENCES sala(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
@@ -20,6 +20,7 @@ CREATE TABLE usuario (
 CREATE TABLE aluno (
   id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   nome_completo VARCHAR(150) NOT NULL,
+  alergias TEXT NULL,
   sala_id BIGINT UNSIGNED NULL,
   FOREIGN KEY (sala_id) REFERENCES sala(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;

@@ -3,7 +3,7 @@ const { pool } = require('../config/database');
 const getAllAlunos = async (req, res) => {
   try {
     const [rows] = await pool.execute(`
-      SELECT a.*, s.nome as sala_nome 
+      SELECT a.*, s.nome as sala_nome
       FROM aluno a 
       LEFT JOIN sala s ON a.sala_id = s.id 
       ORDER BY a.nome_completo
@@ -54,7 +54,7 @@ const getAlunoById = async (req, res) => {
 
 const createAluno = async (req, res) => {
   try {
-    const { nome_completo, sala_id } = req.body;
+    const { nome_completo, sala_id, alergias } = req.body;
     
     if (!nome_completo) {
       return res.status(400).json({
@@ -64,8 +64,8 @@ const createAluno = async (req, res) => {
     }
     
     const [result] = await pool.execute(
-      'INSERT INTO aluno (nome_completo, sala_id) VALUES (?, ?)',
-      [nome_completo, sala_id]
+      'INSERT INTO aluno (nome_completo, sala_id, alergias) VALUES (?, ?, ?)',
+      [nome_completo, sala_id, alergias]
     );
     
     res.status(201).json({
@@ -89,7 +89,7 @@ const createAluno = async (req, res) => {
 const updateAluno = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nome_completo, sala_id } = req.body;
+    const { nome_completo, sala_id, alergias } = req.body;
     
     if (!nome_completo) {
       return res.status(400).json({
@@ -99,8 +99,8 @@ const updateAluno = async (req, res) => {
     }
     
     const [result] = await pool.execute(
-      'UPDATE aluno SET nome_completo = ?, sala_id = ? WHERE id = ?',
-      [nome_completo, sala_id, id]
+      'UPDATE aluno SET nome_completo = ?, sala_id = ?, alergias = ? WHERE id = ?',
+      [nome_completo, sala_id, alergias, id]
     );
     
     if (result.affectedRows === 0) {
