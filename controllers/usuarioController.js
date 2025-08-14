@@ -282,6 +282,9 @@ const authenticateUsuario = async (req, res) => {
 };
 
 const uploadPhoto = async (req, res) => {
+  console.log("batata")
+  console.log(req.file);
+
   if (!req.file) {
     return res.status(400).json({
       success: false,
@@ -291,6 +294,7 @@ const uploadPhoto = async (req, res) => {
 
   try {
     const { id } = req.params;
+    console.log(id);
 
     const query = 'UPDATE usuario SET foto = ? WHERE id = ?';
     const params = [req.file.filename, id];
@@ -316,5 +320,6 @@ module.exports = {
   createUsuario,
   updateUsuario,
   deleteUsuario,
+  uploadPhoto,
   authenticateUsuario,
 };

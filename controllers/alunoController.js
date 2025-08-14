@@ -8,7 +8,7 @@ const getAllAlunos = async (req, res) => {
       LEFT JOIN sala s ON a.sala_id = s.id 
       ORDER BY a.nome_completo
     `);
-    
+
     res.json({
       success: true,
       data: rows
@@ -31,14 +31,14 @@ const getAlunoById = async (req, res) => {
       LEFT JOIN sala s ON a.sala_id = s.id 
       WHERE a.id = ?
     `, [id]);
-    
+
     if (rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'Aluno não encontrado'
       });
     }
-    
+
     res.json({
       success: true,
       data: rows[0]
@@ -54,20 +54,20 @@ const getAlunoById = async (req, res) => {
 
 const createAluno = async (req, res) => {
   try {
-    const { nome_completo, sala_id, alergias } = req.body;
-    
+    const { nome_completo, sala_id, alergias, responsavel_id } = req.body;
+
     if (!nome_completo) {
       return res.status(400).json({
         success: false,
         message: 'Nome completo é obrigatório'
       });
     }
-    
+
     const [result] = await pool.execute(
-      'INSERT INTO aluno (nome_completo, sala_id, alergias) VALUES (?, ?, ?)',
+      'INSERT INTO aluno (nome_completo, sala_id, alergias, responsavel_id) VALUES (?, ?, ?, ?)',
       [nome_completo, sala_id, alergias]
     );
-    
+
     res.status(201).json({
       success: true,
       message: 'Aluno criado com sucesso',
@@ -89,27 +89,27 @@ const createAluno = async (req, res) => {
 const updateAluno = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nome_completo, sala_id, alergias } = req.body;
-    
+    const { nome_completo, sala_id, alergias, responsavel_id } = req.body;
+
     if (!nome_completo) {
       return res.status(400).json({
         success: false,
         message: 'Nome completo é obrigatório'
       });
     }
-    
+
     const [result] = await pool.execute(
-      'UPDATE aluno SET nome_completo = ?, sala_id = ?, alergias = ? WHERE id = ?',
-      [nome_completo, sala_id, alergias, id]
+      'UPDATE aluno SET nome_completo = ?, sala_id = ?, alergias = ?, responsavel_id = ? WHERE id = ?',
+      [nome_completo, sala_id, alergias, responsavel_id, id]
     );
-    
+
     if (result.affectedRows === 0) {
       return res.status(404).json({
         success: false,
         message: 'Aluno não encontrado'
       });
     }
-    
+
     res.json({
       success: true,
       message: 'Aluno atualizado com sucesso',
@@ -127,16 +127,16 @@ const updateAluno = async (req, res) => {
 const deleteAluno = async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const [result] = await pool.execute('DELETE FROM aluno WHERE id = ?', [id]);
-    
+
     if (result.affectedRows === 0) {
       return res.status(404).json({
         success: false,
         message: 'Aluno não encontrado'
       });
     }
-    
+
     res.json({
       success: true,
       message: 'Aluno deletado com sucesso'
@@ -160,7 +160,7 @@ const getAlunosBySala = async (req, res) => {
       WHERE a.sala_id = ?
       ORDER BY a.nome_completo
     `, [salaId]);
-    
+
     res.json({
       success: true,
       data: rows
@@ -174,11 +174,36 @@ const getAlunosBySala = async (req, res) => {
   }
 };
 
+const getAlunosByResponsavel = async (req, res) => {
+  try {
+    const { responsavelId } = req.params;
+    const [rows] = await pool.execute(`
+      SELECT a.*, s.nome as sala_nome
+      FROM aluno a 
+      LEFT JOIN sala s ON a.sala_id = s.id 
+      WHERE a.responsavel_id = ?
+      ORDER BY a.nome_completo
+    `, [responsavelId]);
+
+    res.json({
+      success: true,
+      data: rows
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Erro ao buscar alunos do responsável',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   getAllAlunos,
   getAlunoById,
   createAluno,
   updateAluno,
   deleteAluno,
-  getAlunosBySala
+  getAlunosBySala,
+  getAlunosByResponsavel  
 };

@@ -43,18 +43,34 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post("/api/usuarios/upload", upload.single('image'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({
-      success: false,
-      message: "Nenhum arquivo enviado",
+app.post("/api/usuarios/upload/:id", upload.single('image'), async (req, res) => {
+  try {
+    console.log(req.file)
+    console.log("batata")
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Nenhum arquivo enviado",
+      });
+    }
+
+    await usuarioController.uploadPhoto(req, res);
+
+    res.json({
+      success: true,
+      message: "Arquivo enviado com sucesso",
+      file: req.file,
     });
   }
-  res.json({
-    success: true,
-    message: "Arquivo enviado com sucesso",
-    file: req.file,
-  });
+  catch (error) {
+    console.error("Erro ao fazer upload da foto:", error);
+    res.status(500).json({
+      success: false,
+      message: "Erro ao fazer upload da foto",
+      error: error.message,
+    });
+  }
 });
 
 app.use("/api/salas", salaRoutes);

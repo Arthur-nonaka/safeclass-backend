@@ -23,6 +23,8 @@ CREATE TABLE aluno (
   nome_completo VARCHAR(150) NOT NULL,
   alergias TEXT NULL,
   sala_id BIGINT UNSIGNED NULL,
+  responsavel_id BIGINT UNSIGNED NULL,
+  FOREIGN KEY (responsavel_id) REFERENCES usuario(id) ON DELETE SET NULL,
   FOREIGN KEY (sala_id) REFERENCES sala(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
