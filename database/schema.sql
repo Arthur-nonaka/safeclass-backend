@@ -12,6 +12,7 @@ CREATE TABLE usuario (
   email VARCHAR(150) UNIQUE,
   senha_hash VARCHAR(255),
   telefone VARCHAR(255),
+  photo VARCHAR(255) NULL,
   tipo ENUM('professor','responsavel') NOT NULL,
   sala_id BIGINT UNSIGNED NULL,
   FOREIGN KEY (sala_id) REFERENCES sala(id) ON DELETE SET NULL

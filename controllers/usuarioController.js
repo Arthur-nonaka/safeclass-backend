@@ -281,6 +281,35 @@ const authenticateUsuario = async (req, res) => {
   }
 };
 
+const uploadPhoto = async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({
+      success: false,
+      message: "Nenhum arquivo enviado",
+    });
+  }
+
+  try {
+    const { id } = req.params;
+
+    const query = 'UPDATE usuario SET foto = ? WHERE id = ?';
+    const params = [req.file.filename, id];
+
+    await pool.execute(query, params);
+
+    res.json({
+      success: true,
+      message: "Foto atualizada com sucesso",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Erro ao fazer upload da foto",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAllUsuarios,
   getUsuarioById,

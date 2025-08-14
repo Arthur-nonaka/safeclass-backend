@@ -30,6 +30,33 @@ app.get("/", (req, res) => {
   });
 });
 
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "photos/usuarios");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+})
+
+const upload = multer({ storage: storage });
+
+app.post("/api/usuarios/upload", upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({
+      success: false,
+      message: "Nenhum arquivo enviado",
+    });
+  }
+  res.json({
+    success: true,
+    message: "Arquivo enviado com sucesso",
+    file: req.file,
+  });
+});
+
 app.use("/api/salas", salaRoutes);
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/alunos", alunoRoutes);
