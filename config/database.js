@@ -1,5 +1,5 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
+const mysql = require("mysql2/promise");
+require("dotenv").config();
 
 const dbConfig = {
   host: process.env.DB_HOST,
@@ -8,7 +8,7 @@ const dbConfig = {
   database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
 };
 
 const pool = mysql.createPool(dbConfig);
@@ -16,10 +16,10 @@ const pool = mysql.createPool(dbConfig);
 const testConnection = async () => {
   try {
     const connection = await pool.getConnection();
-    console.log('✅ Conectado ao banco de dados MySQL');
+    console.log("✅ Conectado ao banco de dados MySQL");
     connection.release();
   } catch (error) {
-    console.error('❌ Erro ao conectar com o banco de dados:', error.message);
+    console.error("❌ Erro ao conectar com o banco de dados:", error.message);
   }
 };
 

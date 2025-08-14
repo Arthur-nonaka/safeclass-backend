@@ -150,10 +150,35 @@ const deleteAluno = async (req, res) => {
   }
 };
 
+const getAlunosBySala = async (req, res) => {
+  try {
+    const { salaId } = req.params;
+    const [rows] = await pool.execute(`
+      SELECT a.*, s.nome as sala_nome
+      FROM aluno a 
+      LEFT JOIN sala s ON a.sala_id = s.id 
+      WHERE a.sala_id = ?
+      ORDER BY a.nome_completo
+    `, [salaId]);
+    
+    res.json({
+      success: true,
+      data: rows
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Erro ao buscar alunos da sala',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   getAllAlunos,
   getAlunoById,
   createAluno,
   updateAluno,
-  deleteAluno
+  deleteAluno,
+  getAlunosBySala
 };
